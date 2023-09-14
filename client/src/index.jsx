@@ -23,7 +23,20 @@ const App = () => {
       if (!navigator.geolocation) {
         console.log(`can't use geolocation`);
       } else {
-        navigator.geolocation.getCurrentPosition((position) => {console.log(position.coords.latitude, position.coords.longitude)}, (e) => console.log(e));
+        navigator.geolocation.getCurrentPosition((position) => {
+          console.log(position.coords.latitude, position.coords.longitude)
+          axios.post('/api/entries', {
+            locationName: locationName,
+            lureType: lureType,
+            baitColor: baitColor,
+            action: action,
+            numberCaught: numberCaught,
+            size: size,
+            notes: notes,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          });
+        }, (e) => console.log(e));
       }
     }}>
       <Form.Group className="mb-3" controlId="formExample">
@@ -32,23 +45,23 @@ const App = () => {
       </Form.Group>
       <Form.Group>
         <Form.Label>Type of lure</Form.Label>
-        <Form.Control type="text" placeholder="'spinnerbait', 'jerkbait', 'texas rig', etc" />
+        <Form.Control type="text" value={lureType} onChange={(e) => setLureType(e.target.value)} placeholder="'spinnerbait', 'jerkbait', 'texas rig', etc" />
       </Form.Group>
       <Form.Group>
         <Form.Label>Color of bait</Form.Label>
-        <Form.Control type="text" placeholder="If using live bait, enter type" />
+        <Form.Control type="text" value={baitColor} onChange={(e) => setBaitColor(e.target.value)} placeholder="If using live bait, enter type" />
       </Form.Group>
       <Form.Group>
         <Form.Label>Action</Form.Label>
-        <Form.Control type="text" placeholder="Nothing, some nibbles, hard strikes, ..." />
+        <Form.Control type="text" value={action} onChange={(e) => setAction(e.target.value)} placeholder="Nothing, some nibbles, hard strikes, ..." />
       </Form.Group>
       <Form.Group>
         <Form.Label>Fish Caught</Form.Label>
-        <Form.Control type="text" placeholder="Common name is fine" />
+        <Form.Control type="number" value={numberCaught} onChange={(e) => setNumberCaught(e.target.value)}  placeholder="No bluffing" />
       </Form.Group>
       <Form.Group>
         <Form.Label>Size</Form.Label>
-        <Form.Control type="number" placeholder="Size in inches" />
+        <Form.Control type="number" value={size} onChange={(e) => setSize(e.target.value)} placeholder="Size in inches" />
       </Form.Group>
       <Form.Group>
         <Form.Label>Upload Photo</Form.Label>
@@ -56,7 +69,7 @@ const App = () => {
       </Form.Group>
       <Form.Group>
         <Form.Label>Additional notes</Form.Label>
-        <Form.Control as="textarea" rows={3} />
+        <Form.Control as="textarea" value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
       </Form.Group>
       <Button variant="primary" type="submit">
         Submit
