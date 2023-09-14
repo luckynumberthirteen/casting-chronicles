@@ -8,12 +8,27 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 
 const App = () => {
+  const [locationName, setLocationName] = useState('');
+  const [lureType, setLureType] = useState('');
+  const [baitColor, setBaitColor] = useState('');
+  const [action, setAction] = useState('');
+  const [numberCaught, setNumberCaught] = useState(0);
+  const [size, setSize] = useState(0);
+  const [notes, setNotes] = useState('');
   return(
   <Container className="p-3">
-    <Form>
+    <Form onSubmit={(e) => {
+      e.preventDefault();
+      console.log(locationName);
+      if (!navigator.geolocation) {
+        console.log(`can't use geolocation`);
+      } else {
+        navigator.geolocation.getCurrentPosition((position) => {console.log(position.coords.latitude, position.coords.longitude)}, (e) => console.log(e));
+      }
+    }}>
       <Form.Group className="mb-3" controlId="formExample">
         <Form.Label>Fishing spot</Form.Label>
-        <Form.Control type="text" placeholder="Enter location nickname" />
+        <Form.Control type="text" value={locationName} onChange={(e) => setLocationName(e.target.value)} placeholder="Enter location nickname" />
       </Form.Group>
       <Form.Group>
         <Form.Label>Type of lure</Form.Label>
@@ -43,6 +58,9 @@ const App = () => {
         <Form.Label>Additional notes</Form.Label>
         <Form.Control as="textarea" rows={3} />
       </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
     </Form>
   </Container>
   )
