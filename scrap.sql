@@ -6,6 +6,20 @@ CREATE TABLE stations (
   state varchar(2)
 );
 
+CREATE TABLE entries (
+  id SERIAL primary key,
+  userId varchar(20),
+  locationName varchar(40),
+  lureType varchar(40),
+  baitColor varchar(40),
+  action varchar(40),
+  numberCaught smallint,
+  size smallint,
+  photoUrl text,
+  notes text,
+  weather text
+);
+
 CREATE TEMP TABLE temp_stations (
   station_id varchar(10),
   wmo_id varchar(10),

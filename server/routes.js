@@ -8,5 +8,6 @@ router.get("/stations", controllers.getStations);
 
 //Entries:
 router.post("/entries", controllers.postEntries);
+router.get("/entries", controllers.getEntries);
 
 module.exports = router;
